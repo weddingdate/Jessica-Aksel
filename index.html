@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+  <title>Jessica & Aksel — Chronomètre de Mariage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* === Base === */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fffafc;
+      overflow-x: hidden;
+      min-height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    /* === Décorations === */
+    .top-right-decoration,
+    .top-left-decoration {
+      position: absolute;
+      top: 0;
+      width: 40vw;
+      max-width: 600px;
+      height: auto;
+      z-index: 2;
+    }
+    .top-right-decoration { right: 0; }
+    .top-left-decoration { left: 0; }
+
+    /* === Contenu principal === */
+    .wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+      z-index: 5; /* devant les pétales */
+      padding: clamp(10px, 5vw, 40px);
+      text-align: center;
+    }
+
+    .title h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(32px, 8vw, 60px);
+      margin: 5px 0;
+      color: #674ea7;
+    }
+
+    .title h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(18px, 5vw, 28px);
+      margin: 0;
+      color: #e25c67;
+    }
+
+    .title h3 {
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: clamp(12px, 3vw, 16px);
+      color: #674ea7;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: #ffffffcc;
+      border-radius: 24px;
+      padding: clamp(15px, 5vw, 30px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-top: 30px;
+      max-width: 900px;
+      width: 100%;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px,1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .unit {
+      background: #fff;
+      padding: 15px;
+      border-radius: 18px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .unit:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      cursor: default;
+    }
+
+    .value {
+      font-size: clamp(20px, 6vw, 36px);
+      font-weight: 700;
+      color: #e25c67;
+    }
+    .label {
+      margin-top: 6px;
+      font-size: clamp(10px, 3vw, 14px);
+      color: #674ea7;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .anniv {
+      margin-top: 20px;
+      font-size: clamp(14px, 4vw, 20px);
+      color: #e25c67;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: clamp(10px, 3vw, 13px);
+      color: #564861;
+    }
+
+    /* === Pétales optimisés === */
+    #petals-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .petal {
+      position: absolute;
+      top: -2rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      opacity: 0.8;
+      background-image: url('https://qqz.works/wp-content/uploads/2021/08/petal.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      will-change: transform;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg) rotateY(0deg); opacity: 0.8; }
+      100% { transform: translateY(120vh) rotate(360deg) rotateY(180deg); opacity: 0.9; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Pétales -->
+  <div id="petals-container"></div>
+
+  <!-- Décorations -->
+  <img src="https://i.imgur.com/dGOOfnA.png" alt="top-right" class="top-right-decoration">
+  <img src="https://i.imgur.com/t6ffnbn.png" alt="top-left" class="top-left-decoration">
+
+  <!-- Contenu principal -->
+  <div class="wrap">
+    <div class="title">
+      <h1>Jessica</h1>
+      <h2>&</h2>
+      <h1>Aksel</h1>
+      <h3>Depuis le 20 septembre 2025</h3>
+    </div>
+
+    <div class="card">
+      <section class="grid" aria-live="polite" aria-atomic="true">
+        <div class="unit" id="years"><div class="value">0</div><div class="label">Années</div></div>
+        <div class="unit" id="months"><div class="value">0</div><div class="label">Mois</div></div>
+        <div class="unit" id="days"><div class="value">0</div><div class="label">Jours</div></div>
+        <div class="unit" id="hours"><div class="value">0</div><div class="label">Heures</div></div>
+        <div class="unit" id="minutes"><div class="value">0</div><div class="label">Minutes</div></div>
+        <div class="unit" id="seconds"><div class="value">0</div><div class="label">Secondes</div></div>
+      </section>
+      <div class="anniv" id="anniversaryName">--</div>
+      <footer>Mise à jour : <span id="lastUpdated">--</span></footer>
+    </div>
+  </div>
+
+  <script>
+    // Chronomètre
+    document.addEventListener('DOMContentLoaded', function() {
+      const start = new Date(2025, 8, 20, 14, 0, 0);
+      const anniversaries = {
+        1:"Noces de coton",2:"Noces de cuir",3:"Noces de froment",4:"Noces de cire",5:"Noces de bois",
+        6:"Noces de chypre",7:"Noces de laine",8:"Noces de coquelicot",9:"Noces de faïence",10:"Noces d’étain",
+        11:"Noces de corail",12:"Noces de soie",13:"Noces de muguet",14:"Noces de plomb",15:"Noces de cristal",
+        20:"Noces de porcelaine",25:"Noces d’argent",30:"Noces de perle",35:"Noces de rubis",40:"Noces d’émeraude",
+        45:"Noces de vermeil",50:"Noces d’or",55:"Noces d’orchidée",60:"Noces de diamant"
+      };
+
+      function pad(n){ return String(n).padStart(2,'0'); }
+      function computeElapsed(from,to){
+        let years = to.getFullYear()-from.getFullYear();
+        let months = to.getMonth()-from.getMonth();
+        let days = to.getDate()-from.getDate();
+        let hours = to.getHours()-from.getHours();
+        let minutes = to.getMinutes()-from.getMinutes();
+        let seconds = to.getSeconds()-from.getSeconds();
+        if(seconds<0){seconds+=60;minutes--;}
+        if(minutes<0){minutes+=60;hours--;}
+        if(hours<0){hours+=24;days--}
+        if(days<0){days+=new Date(to.getFullYear(), to.getMonth(),0).getDate();months--}
+        if(months<0){months+=12;years--}
+        return {years,months,days,hours,minutes,seconds};
+      }
+
+      function update(){
+        const now = new Date();
+        const e = computeElapsed(start,now);
+        document.getElementById('years').querySelector('.value').textContent = e.years;
+        document.getElementById('months').querySelector('.value').textContent = e.months;
+        document.getElementById('days').querySelector('.value').textContent = e.days;
+        document.getElementById('hours').querySelector('.value').textContent = pad(e.hours);
+        document.getElementById('minutes').querySelector('.value').textContent = pad(e.minutes);
+        document.getElementById('seconds').querySelector('.value').textContent = pad(e.seconds);
+        document.getElementById('lastUpdated').textContent = now.toLocaleString();
+        document.getElementById('anniversaryName').textContent = anniversaries[e.years] || '';
+      }
+
+      update();
+      setInterval(update,1000);
+    });
+
+    // Pétales roses animés
+    const container = document.getElementById('petals-container');
+    const numPetals = 50;
+
+    for(let i=0;i<numPetals;i++){
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+
+      // Position horizontale aléatoire
+      petal.style.left = Math.random()*100 + 'vw';
+      petal.style.width = 15 + Math.random()*20 + 'px';
+      petal.style.height = petal.style.width;
+
+      // Animation aléatoire
+      const duration = 10 + Math.random()*15;
+      const delay = Math.random()*-20;
+
+      petal.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+      container.appendChild(petal);
+    }
+  </script>
+</body>
+</html>
